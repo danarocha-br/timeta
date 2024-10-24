@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback } from "react";
-import { HelpCircle, Moon, Sun } from "lucide-react";
+import { HelpCircle, Palette } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "./button";
@@ -64,8 +64,7 @@ export const Header: React.FC = () => {
                 className="text-text-header hover:text-text-header"
                 onClick={cycleTheme}
               >
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <Palette className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>

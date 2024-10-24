@@ -1,11 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Settings, TimerReset } from "lucide-react";
+import { TimerReset, SlidersHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 
 import {
-  cardAnimation,
-  cardPanel,
   formAnimation,
   indicatorsAnimation,
 } from "./animation";
@@ -15,6 +13,8 @@ import { TimerButton } from "./button";
 
 import { useTabataStore } from "@/store/tabata";
 import { cn } from "@/lib/utils";
+import { Switch } from "../switch";
+import { Label } from "../label";
 
 const timeStringToSeconds = (timeString: string): number => {
   const [minutes, seconds] = timeString.split(":").map(Number);
@@ -33,24 +33,6 @@ const secondsToTimeString = (totalSeconds: number): string => {
 
 let audioContext: AudioContext | null = null;
 
-const createBeep = (frequency = 800, duration = 0.1, volume = 0.1) => {
-  if (!audioContext) {
-    //@ts-expect-error error
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  oscillator.type = "sine";
-  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-  gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
-
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + duration);
-};
 
 export const TabataTimer: React.FC = () => {
   const {
@@ -85,8 +67,44 @@ export const TabataTimer: React.FC = () => {
     (config.roundsPerSet * (timeOnSeconds + timeOffSeconds) +
       (config.sets > 1 ? restBetweenSetsSeconds : 0));
 
-  const [hasBeeped, setHasBeeped] = useState(false); // Flag to track beep status for time on
-  const [hasTimeOffBeeped, setHasTimeOffBeeped] = useState(false); // Flag for time off beep
+  const [hasBeeped, setHasBeeped] = useState(false);
+  const [hasTimeOffBeeped, setHasTimeOffBeeped] = useState(false);
+  const [isSoundOn, setIsSoundOn] = useState(true);
+
+  const handleSoundToggle = () => {
+    setIsSoundOn((prev) => !prev);
+  };
+
+  const createBeep = (frequency = 800, duration = 0.1, volume = 0.1) => {
+    if (!isSoundOn) {
+      return;
+    }
+    if (!audioContext) {
+      //@ts-expect-error error
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+  };
+
+  useEffect(() => {
+    if (isRunning) {
+      if (isSoundOn) {
+        createBeep();
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRunning, isSoundOn]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -262,6 +280,44 @@ export const TabataTimer: React.FC = () => {
     }
   }, [config, isSettingsOpened, setIsSettingsOpened]);
 
+  const cardPanel = {
+    closed: {
+      height: 220,
+      width: config.roundsPerSet > 12 ? 1100 : 764,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+    open: {
+      height: "auto",
+      width: config.roundsPerSet > 12 ? 1100 : 764,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+  };
+
+  const cardAnimation = {
+    open: {
+      height: 160,
+      width: config.roundsPerSet > 12 ? 1097 : config.roundsPerSet > 16 ? 1000 :  760,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+    closed: {
+      height: 160,
+      width: config.roundsPerSet > 12 ? 1097 : 760,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   return (
     <motion.section
       initial="open"
@@ -293,9 +349,22 @@ export const TabataTimer: React.FC = () => {
             </p>
           </h2>
         )}
-        <div className="flex gap-2 mr-5">
+        <div className="flex items-center gap-1 mr-3">
+          <div className="flex items-center space-x-3 mr-2">
+            <Label htmlFor="sound" className="text-sm">
+              Sound
+            </Label>
+            <Switch
+              id="sound"
+              checked={isSoundOn}
+              onCheckedChange={handleSoundToggle}
+            />
+          </div>
+
+          <div className="w-px h-5 rounded-full bg-muted-foreground/20 mx-3" />
+
           <Button variant="ghost" size="icon" onClick={reset}>
-            <TimerReset />
+            <TimerReset className="-mt-px" />
           </Button>
           <Button
             variant="ghost"
@@ -305,7 +374,7 @@ export const TabataTimer: React.FC = () => {
             )}
             onClick={toggleSettings}
           >
-            <Settings />
+            <SlidersHorizontal className="!h-[18px] !w-[18px]" />
           </Button>
         </div>
       </div>
@@ -360,7 +429,7 @@ export const TabataTimer: React.FC = () => {
           initial="open"
           animate={isSettingsOpened ? "open" : "closed"}
           variants={indicatorsAnimation}
-          className="space-y-4 w-full flex flex-col mx-4 "
+          className="space-y-4 w-full flex flex-col mx-4"
         >
           {Array.from({ length: config.sets }).map((_, setIndex) => (
             <div className="w-full" key={setIndex}>

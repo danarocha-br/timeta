@@ -31,6 +31,32 @@ const secondsToTimeString = (totalSeconds: number): string => {
   )}`;
 };
 
+let audioContext: AudioContext | null = null;
+
+const createBeep = (frequency = 800, duration = 0.1, volume = 0.1) => {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+  gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + duration);
+};
+
+const createEndBeep = () => {
+  createBeep(1000, 0.15, 0.2);
+  setTimeout(() => createBeep(800, 0.15, 0.2), 200);
+  setTimeout(() => createBeep(600, 0.3, 0.2), 400);
+};
+
 export const TabataTimer: React.FC = () => {
   const {
     config,
@@ -63,6 +89,9 @@ export const TabataTimer: React.FC = () => {
     config.sets *
     (config.roundsPerSet * (timeOnSeconds + timeOffSeconds) +
       (config.sets > 1 ? restBetweenSetsSeconds : 0));
+
+  const [hasBeeped, setHasBeeped] = useState(false); // Flag to track beep status for time on
+  const [hasTimeOffBeeped, setHasTimeOffBeeped] = useState(false); // Flag for time off beep
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -117,6 +146,30 @@ export const TabataTimer: React.FC = () => {
             } else {
               setIntervalCountdown(roundTime - timeInRound);
             }
+
+            // Beep when entering time on
+            if (timeInRound < timeOnSeconds && !isTimeOff && !hasBeeped) {
+              createBeep(); // Beep for time on
+              setHasBeeped(true);
+            }
+
+            // Check if we are in the time off phase
+            if (timeInRound >= timeOnSeconds) {
+              setIsTimeOff(true); // Ensure isTimeOff is set correctly
+
+              // Beep when entering time off
+              if (!hasTimeOffBeeped) {
+                createBeep(600, 0.3, 0.2); // Beep for time off (different frequency)
+                setHasTimeOffBeeped(true);
+              }
+            } else {
+              setIsTimeOff(false);
+            }
+
+            if (timeInRound === 0) {
+              setHasBeeped(false);
+              setHasTimeOffBeeped(false);
+            }
           }
 
           if (next >= totalTime) {
@@ -129,6 +182,7 @@ export const TabataTimer: React.FC = () => {
       }, 1000);
     }
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isRunning,
     config,
@@ -142,6 +196,8 @@ export const TabataTimer: React.FC = () => {
     setIsRunning,
     setIsTimeOff,
     setRestProgress,
+    hasBeeped,
+    hasTimeOffBeeped,
   ]);
 
   const reset = () => {
@@ -240,7 +296,6 @@ export const TabataTimer: React.FC = () => {
                 / {config.roundsPerSet * config.sets}
               </span>
             </p>
-
           </h2>
         )}
         <div className="flex gap-2 mr-5">

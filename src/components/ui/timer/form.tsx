@@ -279,7 +279,7 @@ export function TabataForm() {
               setIsSettingsOpened(false);
             }}
           >
-            Let's go
+            Let&apos;s go
           </Button>
         </div>
       </form>

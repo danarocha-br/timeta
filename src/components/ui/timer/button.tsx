@@ -2,6 +2,7 @@ import React from "react";
 
 type TimerButtonProps = {
   isPaused: boolean;
+  isRest: boolean;
   isTimeOff: boolean;
   onClick: () => void;
   countdown: number;
@@ -13,6 +14,7 @@ export const TimerButton: React.FC<TimerButtonProps> = ({
   isTimeOff,
   countdown,
   totalTime,
+  isRest,
   ...props
 }) => {
   const radius = 52;
@@ -20,18 +22,19 @@ export const TimerButton: React.FC<TimerButtonProps> = ({
   const normalizedRadius = radius - strokeWidth * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
 
-  // Ensure countdown never goes below 0
   const safeCountdown = Math.max(countdown, 0);
 
   // Calculate the stroke dash offset
   // This will be 0 when countdown is at totalTime, and circumference when countdown is 0
-  const strokeDashoffset = circumference * (1 - safeCountdown / totalTime);
+  const strokeDashoffset = !isRest ? circumference * (1 - safeCountdown / totalTime) : 0;
 
   const handleStatusColor = () => {
     if (isTimeOff) {
       return "stroke-warning transition-all";
     } else if (isPaused) {
       return "stroke-accent/20 transition-all";
+    } else if (isRest) {
+      return "stroke-transparent transition-all";
     } else {
       return "stroke-success transition-all";
     }

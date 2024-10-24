@@ -396,6 +396,7 @@ export const TabataTimer: React.FC = () => {
               setIsRunning(!isRunning);
               setIsSettingsOpened(false);
             }}
+            isRest={isRest}
             isPaused={!isRunning}
             isTimeOff={isTimeOff}
             countdown={intervalCountdown}

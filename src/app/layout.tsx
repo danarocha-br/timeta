@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "./providers";
-import { siteConfig } from '@/config/site';
+import { siteConfig } from "@/config/site";
+import { ThemeProvider } from "./theme-provider";
+import { Providers } from "./providers";
 
 const sans = localFont({
   src: [
@@ -84,17 +85,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${secondary.variable} ${sans.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="toned"
-          themes={["light", "dark", "toned"]}
-          // enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
+      <Providers>
+        <body className={`${secondary.variable} ${sans.variable} antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="toned"
+            themes={["light", "dark", "toned"]}
+            // enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </Providers>
     </html>
   );
 }

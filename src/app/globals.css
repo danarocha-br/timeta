@@ -82,8 +82,8 @@ body {
     --radius: 0.5rem;
   }
   .light {
-    --background: 17 20% 90%;
-    --surface: 17 25% 95%;
+    --background: 17 20% 96%;
+    --surface: 17 20% 93%;
     --foreground: 26 11% 5.5%;
     --card: 17 29% 99%;
     --card-foreground: 26 11% 5.5%;
@@ -93,7 +93,7 @@ body {
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 17 22% 85%;
     --secondary-foreground: 24 9.8% 10%;
-    --muted: 17 20% 91%;
+    --muted: 17 16% 89%;
     --muted-foreground: 17 8% 55%;
     --accent: 17 20% 58%;
     --accent-foreground: 24 9.8% 10%;
@@ -104,7 +104,7 @@ body {
     --warning: 38 94% 67%;
     --warning-foreground: 60 9.1% 97.8%;
     --border: 17 24% 97%;
-    --input: 17 25% 99%;
+    --input: 17 16% 96.5%;
     --text-primary: 17 25% 14%;
     --text-header: 26 11% 5.5%;
     --ring: 17 20% 89%;
@@ -116,10 +116,10 @@ body {
     --radius: 0.5rem;
   }
   .toned {
-    --background: 17 29% 88%;
+    --background: 17 24% 88%;
     --surface: 16 11% 10%;
     --foreground: 17 20% 90%;
-    --card: 16 11% 13%;
+    --card: 16 10% 13%;
     --card-foreground: 51 17% 95%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;

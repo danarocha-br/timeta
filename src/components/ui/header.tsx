@@ -39,10 +39,8 @@ export const Header: React.FC = () => {
 
       <div className="flex gap-2 items-center">
         <Sheet>
-          <SheetTrigger  className='focus:outline-none'>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
+          <SheetTrigger asChild className='focus:outline-none'>
+
                   <Button
                     variant="ghost"
                     size="icon"
@@ -50,12 +48,7 @@ export const Header: React.FC = () => {
                   >
                     <HelpCircle />
                   </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>What is a tabata?</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>

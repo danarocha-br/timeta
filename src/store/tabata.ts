@@ -35,8 +35,8 @@ interface TabataState {
 export const initialTabataConfig: TabataConfig = {
   sets: 3,
   roundsPerSet: 8,
-  timeOn: "00:45",
-  timeOff: "00:15",
+  timeOn: "00:20",
+  timeOff: "00:10",
   restBetweenSets: "01:00",
 };
 

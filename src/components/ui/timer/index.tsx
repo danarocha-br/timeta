@@ -11,10 +11,10 @@ import {
 } from "./animation";
 import { Button } from "../button";
 import { TabataForm } from "./form";
+import { TimerButton } from "./button";
 
 import { useTabataStore } from "@/store/tabata";
 import { cn } from "@/lib/utils";
-import { TimerButton } from "./button";
 
 const timeStringToSeconds = (timeString: string): number => {
   const [minutes, seconds] = timeString.split(":").map(Number);

@@ -88,30 +88,24 @@ export function TabataForm() {
     }
   };
 
+  const parseTime = (time: string) => {
+    if (!time || time.length < 4) return 0;
+    const minutes = parseInt(time.slice(0, -2), 10);
+    const seconds = parseInt(time.slice(-2), 10);
+    return isNaN(minutes) || isNaN(seconds) ? 0 : minutes * 60 + seconds; // Convert to total seconds
+  };
+
   const totalTime = useMemo(() => {
-    const timeOn = form.watch("time_on");
-    const timeOff = form.watch("time_off");
-    const restTime = form.watch("rest_time");
-    const numberOfSets = form.watch("number_of_sets");
-    const roundsPerSet = form.watch("rounds_per_set");
+    const timeOn = parseTime(form.watch("time_on")) || 0; // Time on in seconds
+    const timeOff = parseTime(form.watch("time_off")) || 0; // Time off in seconds
+    const numberOfSets = Number(form.watch("number_of_sets")) || 0; // Number of sets
+    const roundsPerSet = Number(form.watch("rounds_per_set")) || 0; // Rounds per set
 
-    const parseTime = (time: string) => {
-      if (!time || time.length < 4) return 0;
-      const minutes = parseInt(time.slice(0, -2), 10);
-      const seconds = parseInt(time.slice(-2), 10);
-      return isNaN(minutes) || isNaN(seconds) ? 0 : minutes * 60 + seconds; // Convert to total seconds
-    };
+    // Calculate total time for one round (time on + time off)
+    const totalTimeForOneRound = timeOn + timeOff;
 
-    const totalOn = parseTime(timeOn) || 0;
-    const totalOff = parseTime(timeOff) || 0;
-    const totalRest = parseTime(restTime) || 0;
-
-    const totalSets = Number(numberOfSets) || 0;
-    const totalRounds = Number(roundsPerSet) || 0;
-
-    // Total time calculation
-    const totalWorkoutTime =
-      (totalOn + totalOff + totalRest) * totalRounds * totalSets;
+    // Total workout time calculation
+    const totalWorkoutTime = totalTimeForOneRound * roundsPerSet * numberOfSets;
 
     // Convert back to hours, minutes, and seconds
     const totalHours = Math.floor(totalWorkoutTime / 3600);
@@ -129,7 +123,8 @@ export function TabataForm() {
             "0"
           )}`
       : "00:00:00";
-  }, [form]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.watch("time_on"), form.watch("time_off"), form.watch("number_of_sets"), form.watch("rounds_per_set")]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const formattedData = {

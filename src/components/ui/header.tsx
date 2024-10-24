@@ -14,12 +14,11 @@ import {
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./sheet";
-import { Help } from './help';
+import { Help } from "./help";
 
 const themes = ["light", "dark", "toned"];
 
@@ -39,16 +38,14 @@ export const Header: React.FC = () => {
 
       <div className="flex gap-2 items-center">
         <Sheet>
-          <SheetTrigger asChild className='focus:outline-none'>
-
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-text-header hover:text-text-header"
-                  >
-                    <HelpCircle />
-                  </Button>
-
+          <SheetTrigger asChild className="focus:outline-none">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-text-header hover:text-text-header"
+            >
+              <HelpCircle />
+            </Button>
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>

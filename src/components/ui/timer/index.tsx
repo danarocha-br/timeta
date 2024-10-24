@@ -35,6 +35,7 @@ let audioContext: AudioContext | null = null;
 
 const createBeep = (frequency = 800, duration = 0.1, volume = 0.1) => {
   if (!audioContext) {
+    //@ts-expect-error error
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
   const oscillator = audioContext.createOscillator();
@@ -49,12 +50,6 @@ const createBeep = (frequency = 800, duration = 0.1, volume = 0.1) => {
 
   oscillator.start();
   oscillator.stop(audioContext.currentTime + duration);
-};
-
-const createEndBeep = () => {
-  createBeep(1000, 0.15, 0.2);
-  setTimeout(() => createBeep(800, 0.15, 0.2), 200);
-  setTimeout(() => createBeep(600, 0.3, 0.2), 400);
 };
 
 export const TabataTimer: React.FC = () => {
@@ -182,7 +177,7 @@ export const TabataTimer: React.FC = () => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isRunning,
     config,

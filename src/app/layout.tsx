@@ -57,7 +57,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og-image.png`],
+    images: [
+      "https://res.cloudinary.com/danarocha/image/upload/v1729873097/timeta-og.png",
+    ],
     creator: "@danarocha",
   },
   icons: {

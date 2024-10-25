@@ -21,7 +21,7 @@ export default function Home() {
               icon: (
                 <GitHubLogoIcon className="h-full w-full text-text-header/50 dark:text-text-header" />
               ),
-              href: "#",
+              href: "https://github.com/danarocha-br",
             },
             {
               title: "X (Twitter)",

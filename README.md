@@ -1,8 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<img alt="Timeta app" src="/src/public/timeta.gif"   />
 
-## Getting Started
+<br />
 
-First, run the development server:
+<p style="margin-top: 24px;">A customizable interval timer designed for Tabata and other high-intensity interval training (HIIT) workouts. It helps users perform interval training workouts with precision timing. It follows the traditional Tabata protocol (20 seconds work, 10 seconds rest, 8 rounds) while offering customization options for different interval patterns.
+</p>
+
+This project is built using [Next.js](https://nextjs.org).
+
+## :purple_heart: Why?
+
+A personal project where I can experiment with new technologies and design concepts, so, don't hesitate in providing me any feedback you might have to [hello@danarocha.com](mailto:hello@danarocha.com).
+
+More crafts: [Website](https://danarocha.com) | [Twitter](https://twitter.com/danarocha_) | [GitHub](https://github.com/danarocha-br)
+
+## :wrench: Built With
+
+- [Node.js](https://nodejs.org/en/)
+- [NextJS](https://nextjs.org/)
+- [Tailwind](https://tailwindcss.com/)
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [Framer-motion](https://www.framer.com/motion/)
+
+## 🛠️ Getting Started
+
+To get started with development, run the following command to start the server:
 
 ```bash
 npm run dev
@@ -14,23 +35,25 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Access the app at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js version [20.9.0] or higher
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+   ```bash
+   gh repo clone danarocha-br/timeta
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Made with ♥ by **Dana Rocha** :wave: [Get in touch!](https://www.linkedin.com/in/danarocha/)

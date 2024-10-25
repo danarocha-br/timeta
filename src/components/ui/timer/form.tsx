@@ -260,8 +260,8 @@ export function TabataForm() {
 
         <div className="flex w-full justify-between items-center gap-6 mt-4">
           <p className="text-foreground">
-            <span className="mr-4">Total workout:</span>{" "}
-            <span className="text-2xl border border-primary p-2 rounded-lg">
+            <span className="mr-4 tracking-wide">Total workout:</span>{" "}
+            <span className="text-2xl border border-primary p-2 rounded-lg font-[family-name:var(--font-secondary)] font-medium tracking-wide">
               {totalTime}
             </span>
           </p>{" "}

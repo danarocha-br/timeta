@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import { TimerReset, SlidersHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 
-import {
-  formAnimation,
-  indicatorsAnimation,
-} from "./animation";
+import { formAnimation, indicatorsAnimation } from "./animation";
 import { Button } from "../button";
 import { TabataForm } from "./form";
 import { TimerButton } from "./button";
@@ -15,6 +12,8 @@ import { useTabataStore } from "@/store/tabata";
 import { cn } from "@/lib/utils";
 import { Switch } from "../switch";
 import { Label } from "../label";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
 
 const timeStringToSeconds = (timeString: string): number => {
   const [minutes, seconds] = timeString.split(":").map(Number);
@@ -32,7 +31,6 @@ const secondsToTimeString = (totalSeconds: number): string => {
 };
 
 let audioContext: AudioContext | null = null;
-
 
 export const TabataTimer: React.FC = () => {
   const {
@@ -103,7 +101,7 @@ export const TabataTimer: React.FC = () => {
         createBeep();
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, isSoundOn]);
 
   useEffect(() => {
@@ -302,7 +300,8 @@ export const TabataTimer: React.FC = () => {
   const cardAnimation = {
     open: {
       height: 160,
-      width: config.roundsPerSet > 12 ? 1097 : config.roundsPerSet > 16 ? 1000 :  760,
+      width:
+        config.roundsPerSet > 12 ? 1097 : config.roundsPerSet > 16 ? 1000 : 760,
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -327,18 +326,22 @@ export const TabataTimer: React.FC = () => {
     >
       <div className="flex text-foreground justify-between w-full pl-10 items-center mr-1">
         {isSettingsOpened ? (
-          <h2>Configure your Tabata</h2>
+          <h2 className="font-medium tracking-wide text-lg">
+            Configure your Tabata
+          </h2>
         ) : (
           <h2 className="flex items-center gap-3">
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+            <p className="flex items-center gap-2 text-sm text-muted-foreground tracking-wide">
               Total time:{" "}
               <span className="font-bold text-base text-foreground">
                 {secondsToTimeString(currentTime)}
               </span>
             </p>
             <span className="opacity-20"> | </span>
-            <p className="flex items-center gap-2 ">
-              <span className="text-sm text-muted-foreground">Round: </span>
+            <p className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground tracking-wide">
+                Round:{" "}
+              </span>
               <span className="font-bold text-base text-foreground">
                 {currentRound + 1}
               </span>
@@ -351,7 +354,7 @@ export const TabataTimer: React.FC = () => {
         )}
         <div className="flex items-center gap-1 mr-3">
           <div className="flex items-center space-x-3 mr-2">
-            <Label htmlFor="sound" className="text-sm">
+            <Label htmlFor="sound" className="text-sm tracking-wide">
               Sound
             </Label>
             <Switch
@@ -363,19 +366,34 @@ export const TabataTimer: React.FC = () => {
 
           <div className="w-px h-5 rounded-full bg-muted-foreground/20 mx-3" />
 
-          <Button variant="ghost" size="icon" onClick={reset}>
-            <TimerReset className="-mt-px" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              isSettingsOpened ? "bg-primary text-primary-foreground" : ""
-            )}
-            onClick={toggleSettings}
-          >
-            <SlidersHorizontal className="!h-[18px] !w-[18px]" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={reset}>
+                  <TimerReset className="-mt-px" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Reset timer</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    isSettingsOpened ? "bg-primary text-primary-foreground" : ""
+                  )}
+                  onClick={toggleSettings}
+                >
+                  <SlidersHorizontal className="!h-[18px] !w-[18px]" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Configure timer</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
@@ -398,7 +416,10 @@ export const TabataTimer: React.FC = () => {
           <motion.div className="flex items-center gap-2">
             <div className="flex flex-col gap-6 items-center justify-center rounded-full w-36 h-36">
               <h1 className="text-[2.6rem] flex flex-col items-center gap-1 relative w-28 -mt-3">
-                {secondsToTimeString(intervalCountdown)}
+                <span className="font-[family-name:var(--font-secondary)] font-medium tracking-wide">
+                  {secondsToTimeString(intervalCountdown)}
+                </span>
+
                 <span
                   className={cn(
                     "text-base px-2 py-px rounded-md flex justify-center items-center before:contents-[''] before:absolute before:left-0 before:w-2 before:h-px after:contents-[''] after:absolute after:right-0 after:w-2 after:h-px",

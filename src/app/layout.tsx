@@ -1,33 +1,20 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Figtree } from "next/font/google";
+
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { ThemeProvider } from "./theme-provider";
 import { Providers } from "./providers";
 
-const sans = localFont({
-  src: [
-    {
-      path: "./fonts/Roobert-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Roobert-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Roobert-Bold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-  ],
+const sans = Figtree({
+  display: "swap",
+  subsets: ["latin"],
   variable: "--font-sans",
 });
-
 const secondary = localFont({
-  src: "./fonts/ClashDisplay-Variable.woff",
+  display: "swap",
+  src: "./fonts/ClashDisplay-Variable.woff2",
   variable: "--font-secondary",
   weight: "100 900",
 });

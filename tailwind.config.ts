@@ -11,8 +11,8 @@ const config: Config = {
     extend: {
       font: {
         family: {
-          sans: "Roobert, sans-serif",
-          secondary: "var(--font-secondary)",
+          sans: ["var(--font-sans)"],
+          secondary: ["var(--font-secondary)"],
         },
       },
       colors: {

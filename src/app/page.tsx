@@ -1,11 +1,10 @@
-import { FloatingDock } from '@/components/ui/floating-dock';
-import { Header } from '@/components/ui/header';
+import { FloatingDock } from "@/components/ui/floating-dock";
+import { Header } from "@/components/ui/header";
 import { TabataTimer } from "@/components/ui/timer";
-import { GitHubLogoIcon,  } from '@radix-ui/react-icons';
-import { X, Mail } from "lucide-react";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { Mail } from "lucide-react";
 
 export default function Home() {
-
   return (
     <div className="w-full min-h-screen p-6 font-[family-name:var(--font-sans)] relative">
       <Header />

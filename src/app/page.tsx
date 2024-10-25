@@ -13,7 +13,7 @@ export default function Home() {
         <TabataTimer />
       </main>
 
-      <footer className="relative">
+      <footer className="hidden lg:block relative">
         <FloatingDock
           items={[
             {

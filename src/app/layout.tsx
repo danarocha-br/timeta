@@ -73,20 +73,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <Providers>
-        <body className={`${secondary.variable} ${sans.variable} antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="toned"
-            themes={["light", "dark", "toned"]}
-            // enableSystem
-            disableTransitionOnChange
+    <>
+      <head>
+        <title>Hello world</title>
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/danarocha/image/upload/v1729873097/timeta-og.png"
+        />
+      </head>
+
+      <html lang="en">
+        <Providers>
+          <body
+            className={`${secondary.variable} ${sans.variable} antialiased`}
           >
-            {children}
-          </ThemeProvider>
-        </body>
-      </Providers>
-    </html>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="toned"
+              themes={["light", "dark", "toned"]}
+              // enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </body>
+        </Providers>
+      </html>
+    </>
   );
 }

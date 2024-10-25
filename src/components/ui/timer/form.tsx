@@ -141,7 +141,7 @@ export function TabataForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full px-8 flex flex-col gap-2 justify-end items-end pt-4 pb-6"
+        className="w-full px-3 lg:px-8 flex flex-col gap-3 lg:gap-2 justify-end items-end pt-1 lg:pt-4 pb-6"
       >
         <FormField
           control={form.control}
@@ -258,17 +258,17 @@ export function TabataForm() {
           )}
         />
 
-        <div className="flex w-full justify-between items-center gap-6 mt-4">
-          <p className="text-foreground">
-            <span className="mr-4 tracking-wide">Total workout:</span>{" "}
-            <span className="text-2xl border border-primary p-2 rounded-lg font-[family-name:var(--font-secondary)] font-medium tracking-wide">
+        <div className="flex flex-col lg:flex-row w-full justify-end lg:justify-between lg:items-center gap-6 mt-4">
+          <p className="flex justify-between lg:justify-start text-foreground w-full lg:w-auto items-center">
+            <span className="ml-2 lg:ml-0 lg:mr-4 tracking-wide">Total workout:</span>{" "}
+            <span className="text-2xl border border-primary p-3 lg:p-2 rounded-lg font-[family-name:var(--font-secondary)] font-medium tracking-wide">
               {totalTime}
             </span>
           </p>{" "}
           <Button
             type="submit"
             variant="default"
-            className="w-1/3 text-base font-semibold"
+            className="w-[90%] mx-auto lg:mx-0 lg:w-1/3 text-base font-semibold rounded-full lg:rounded-md"
             onClick={() => {
               setIsRunning(!isRunning);
               setIsSettingsOpened(false);

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { TimerReset, SlidersHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 
-import { formAnimation, indicatorsAnimation } from "./animation";
+import { indicatorsAnimation } from "./animation";
 import { Button } from "../button";
 import { TabataForm } from "./form";
 import { TimerButton } from "./button";
@@ -14,6 +14,7 @@ import { Switch } from "../switch";
 import { Label } from "../label";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const timeStringToSeconds = (timeString: string): number => {
   const [minutes, seconds] = timeString.split(":").map(Number);
@@ -33,6 +34,8 @@ const secondsToTimeString = (totalSeconds: number): string => {
 let audioContext: AudioContext | null = null;
 
 export const TabataTimer: React.FC = () => {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
   const {
     config,
     isRunning,
@@ -280,8 +283,8 @@ export const TabataTimer: React.FC = () => {
 
   const cardPanel = {
     closed: {
-      height: 220,
-      width: config.roundsPerSet > 12 ? 1100 : 764,
+      height: isDesktop ? 220 : 400,
+      width: isDesktop ? (config.roundsPerSet > 12 ? 1100 : 764) : "100%",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -289,7 +292,7 @@ export const TabataTimer: React.FC = () => {
     },
     open: {
       height: "auto",
-      width: config.roundsPerSet > 12 ? 1100 : 764,
+      width: isDesktop ? (config.roundsPerSet > 12 ? 1100 : 764) : "100%",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -299,20 +302,61 @@ export const TabataTimer: React.FC = () => {
 
   const cardAnimation = {
     open: {
-      height: 160,
-      width:
-        config.roundsPerSet > 12 ? 1097 : config.roundsPerSet > 16 ? 1000 : 760,
+      height: isDesktop ? 160 : 0,
+      minHeight: isDesktop ? 160 : 0,
+      width: isDesktop
+        ? config.roundsPerSet > 12
+          ? 1097
+          : config.roundsPerSet > 16
+          ? 1000
+          : 760
+        : "100%",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
       },
     },
     closed: {
-      height: 160,
-      width: config.roundsPerSet > 12 ? 1097 : 760,
+      height: isDesktop ? 160 : 320,
+      minHeight: 160,
+      width: isDesktop ? (config.roundsPerSet > 12 ? 1097 : 760) : "100%",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
+      },
+    },
+  };
+
+  const formAnimation = {
+    closed: {
+      opacity: 0,
+      height: 0,
+      transition: {
+        opacity: {
+          duration: 0.1,
+          ease: "easeOut",
+        },
+        height: {
+          duration: 0.3,
+          ease: "easeOut",
+        },
+      },
+    },
+    open: {
+      opacity: 1,
+      height: isDesktop ? "320px" : "auto",
+      transition: {
+        opacity: {
+          delay: 0.6,
+          duration: 0.5,
+          ease: "easeOut",
+        },
+        height: {
+          delay: 0.2,
+          type: "spring",
+          stiffness: 100,
+          damping: 10,
+        },
       },
     },
   };
@@ -322,15 +366,15 @@ export const TabataTimer: React.FC = () => {
       initial="open"
       animate={isSettingsOpened ? "open" : "closed"}
       variants={cardPanel}
-      className="border-2 border-ring/30 flex flex-col items-end gap-1 justify-between bg-surface pt-3 rounded-t-[2rem] rounded-b-[5rem] px-0 relative text-foreground"
+      className="border-2 border-ring/30 flex flex-col items-end gap-4 lg:gap-1 justify-end lg:justify-between bg-surface pt-3 rounded-t-[2rem] rounded-b-[5rem] px-0 relative text-foreground"
     >
-      <div className="flex text-foreground justify-between w-full pl-10 items-center mr-1">
+      <div className="flex flex-col-reverse lg:flex-row text-foreground justify-between w-full lg:pl-10 lg:items-center lg:mr-1">
         {isSettingsOpened ? (
-          <h2 className="font-medium tracking-wide text-lg">
+          <h2 className="hidden lg:block font-medium tracking-wide text-lg">
             Configure your Tabata
           </h2>
         ) : (
-          <h2 className="flex items-center gap-3">
+          <h2 className="pt-4 lg:pt-0 flex justify-center lg:justify-start items-center gap-3 border-t lg:border-t-0">
             <p className="flex items-center gap-2 text-sm text-muted-foreground tracking-wide">
               Total time:{" "}
               <span className="font-bold text-base text-foreground">
@@ -352,7 +396,7 @@ export const TabataTimer: React.FC = () => {
             </p>
           </h2>
         )}
-        <div className="flex items-center gap-1 mr-3">
+        <div className="flex items-center justify-end gap-4 lg:gap-1 mr-3">
           <div className="flex items-center space-x-3 mr-2">
             <Label htmlFor="sound" className="text-sm tracking-wide">
               Sound
@@ -410,11 +454,11 @@ export const TabataTimer: React.FC = () => {
         initial="open"
         animate={isSettingsOpened ? "open" : "closed"}
         variants={cardAnimation}
-        className="bg-card text-card-foreground rounded-t-[2rem] rounded-b-[5rem] flex items-center justify-between gap-4 overflow-hidden px-7"
+        className="bg-card text-card-foreground rounded-t-[2rem] rounded-b-[5rem] flex flex-col lg:flex-row items-center lg:justify-between lg:gap-4 overflow-hidden lg:px-7"
       >
         {!isSettingsOpened && (
           <motion.div className="flex items-center gap-2">
-            <div className="flex flex-col gap-6 items-center justify-center rounded-full w-36 h-36">
+            <div className="flex flex-col gap-2 lg:gap-6 items-center justify-center rounded-full w-36 h-32 lg:h-36">
               <h1 className="text-[2.6rem] flex flex-col items-center gap-1 relative w-28 -mt-3">
                 <span className="font-[family-name:var(--font-secondary)] font-medium tracking-wide">
                   {secondsToTimeString(intervalCountdown)}
@@ -450,7 +494,7 @@ export const TabataTimer: React.FC = () => {
           initial="open"
           animate={isSettingsOpened ? "open" : "closed"}
           variants={indicatorsAnimation}
-          className="space-y-4 w-full flex flex-col mx-4"
+          className="hidden space-y-4 w-full lg:flex flex-col mx-4"
         >
           {Array.from({ length: config.sets }).map((_, setIndex) => (
             <div className="w-full" key={setIndex}>
@@ -472,7 +516,7 @@ export const TabataTimer: React.FC = () => {
 
         <div
           className={cn(
-            "flex gap-2 items-center justify-end relative ml-4 -mt-2",
+            "flex gap-2 items-center justify-end relative lg:ml-4 mt-2 lg:-mt-2",
             isSettingsOpened ? "hidden" : "flex"
           )}
         >
@@ -489,7 +533,7 @@ export const TabataTimer: React.FC = () => {
             disabled={isSettingsOpened}
           />
 
-          <div className="w-9 h-px bg-primary absolute -right-8 -mt-1" />
+          <div className="hidden lg:blockw-9 h-px bg-primary absolute -right-8 -mt-1" />
         </div>
       </motion.div>
     </motion.section>

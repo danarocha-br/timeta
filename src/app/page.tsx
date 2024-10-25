@@ -6,10 +6,10 @@ import { Mail } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="w-full min-h-screen p-6 font-[family-name:var(--font-sans)] relative">
+    <div className="w-full min-h-screen p-4 lg:p-6 font-[family-name:var(--font-sans)] relative">
       <Header />
 
-      <main className="w-full h-[calc(100vh-80px)] flex justify-center items-center relative">
+      <main className="flex w-full h-[calc(100vh-80px)] justify-center items-center relative">
         <TabataTimer />
       </main>
 
@@ -21,7 +21,7 @@ export default function Home() {
               icon: (
                 <GitHubLogoIcon className="h-full w-full text-text-header/50 dark:text-text-header" />
               ),
-              href: "https://github.com/danarocha-br",
+              href: "https://github.com/danarocha-br/timeta",
             },
             {
               title: "X (Twitter)",
